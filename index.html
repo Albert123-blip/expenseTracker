@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="icons8-wallet-64.png">
+</head>
+<body>
+    <header>
+        <img src="icons8-wallet-64.png" alt="Wallet logo">
+        <h1>Expense<span class="tracker-style">Tracker</span></h1>
+        <p class="description">Track your income and expenses, stay in control!</p>
+        <input type="date" id="date-picker" class="date-picker" aria-label="Select date">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">☾</button>
+    </header>
+
+    <main>
+        
+        <section>
+            <div class="card">
+                <div id="total-income" class="total-income">
+                    <img src="icons8-scroll-up-64.png" alt="scroll up">
+                    <h3>Total Income</h3>
+                    <p id="income-amount">$0</p>
+                    <img class="wavy-line" src="icons8-wavy-line-48.png" alt="green wavy line">
+                </div>
+
+                <div id="total-expenses" class="total-expenses">
+                    <img src="icons8-scroll-down-64.png" alt="scroll down">
+                    <h3>Total Expenses</h3>
+                    <span id="expense-amount">$0</span>
+                    <img class="wavy-line" src="icons8-wavy-line-50.png" alt="red wavy line">
+                </div>
+
+                <div id="balance-check" class="balance-check">
+                    <img class="wallet-balance" src="icons8-wallet-100.png" alt="blue wallet">
+                    <h3>Balance</h3>
+                    <span id="balance-amount">$0</span>
+                    <img class="wavy-line" src="icons8-line-chart-48.png" alt="blue line chart">
+                </div>
+            </div>
+        </section>
+
+       
+        <div class="form-and-chart">
+            <section class="add-transaction">
+                <div class="transaction-card">
+                    <img id="add-transaction" class="plus-img" src="icons8-plus-64.png" alt="plus sign">
+                    <h3>Add Transaction</h3>
+                </div>
+
+                <form id="transaction-form" class="transaction-form">
+                    <label class="field field-title">
+                        Title / Description
+                        <input type="text" id="title" placeholder="e.g. Lunch" required>
+                    </label>
+
+                    <label class="field">
+                        Amount ($)
+                        <input type="number" id="amount" placeholder="e.g. 50" min="0.01" step="0.01" required>
+                    </label>
+
+                    <label class="field">
+                        Type
+                        <select id="type">
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
+                        </select>
+                    </label>
+
+                    <label class="field">
+                        Category
+                        <div class="input-icon">
+                            <img src="icons8-tag-50.png" alt="">
+                            <select id="category" required>
+                                <option value="">Select Category</option>
+                                <option>Food</option>
+                                <option>Transport</option>
+                                <option>Shopping</option>
+                                <option>Bills</option>
+                                <option>Salary</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </label>
+
+                    <label class="field">
+                        Date
+                        <input type="date" id="date">
+                    </label>
+
+                    <button type="submit" class="submit-btn">
+                        <img src="icons8-plus-64.png" alt="">Add Transaction
+                    </button>
+                </form>
+            </section>
+
+            <section class="spending-overview">
+                <div class="overview-head">
+                    <div class="overview-title">
+                        <img src="icons8-bars-50.png" alt="">
+                        <h2>Spending Overview</h2>
+                    </div>
+                    <select id="period" class="period-select" aria-label="Time period">
+                        <option value="this-month">This Month</option>
+                        <option value="last-month">Last Month</option>
+                        <option value="this-year">This Year</option>
+                    </select>
+                </div>
+
+                <div class="overview-body">
+                    <div class="donut" id="donut">
+                        <div class="donut-center">
+                            <p class="donut-amount" id="total-spent">$0</p>
+                            <p class="donut-label">Total Spent</p>
+                        </div>
+                    </div>
+
+                    
+                    <ul class="legend" id="legend"></ul>
+                </div>
+            </section>
+        </div>
+
+        
+        <section class="filter-bar">
+            <div class="filter-label">
+                <img src="icons8-filter-48.png" alt="">
+                <h3>Filter Transactions:</h3>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" data-filter="all">All</button>
+                <button class="tab" data-filter="income">Income</button>
+                <button class="tab" data-filter="expense">Expenses</button>
+            </div>
+
+            <span class="divider"></span>
+
+            <select id="category-filter" class="category-filter" aria-label="Filter by category">
+                <option value="all">All Categories</option>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Bills">Bills</option>
+                <option value="Salary">Salary</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <button id="clear-all" class="clear-all">🗑 Clear All</button>
+        </section>
+
+       
+        <section class="history">
+            <div class="history-head">
+                <span class="history-icon" aria-hidden="true">☰</span>
+                <h3>Transaction History</h3>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tx-body"></tbody>
+                </table>
+            </div>
+
+            <p class="empty-state hidden" id="empty-state">No transactions found. Add one above.</p>
+
+            <div class="history-foot">
+                <p id="showing">Showing 0 of 0 transactions</p>
+                <div class="pagination" id="pagination"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p class="footer-message"><span aria-hidden="true">🏆</span> Keep going! You're doing great with your finances! <span aria-hidden="true">💜</span></p>
+        <p class="footer-version">Expense Tracker v1.0</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+</html>
